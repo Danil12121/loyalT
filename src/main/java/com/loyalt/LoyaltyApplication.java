@@ -1,0 +1,11 @@
+package com.loyalt;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LoyaltyApplication {
+
+    static void main(String[] args) {
+        SpringApplication.run(LoyaltyApplication.class, args);
+    }
+}
