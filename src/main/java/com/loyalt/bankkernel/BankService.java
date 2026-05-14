@@ -19,7 +19,7 @@ public class BankService {
     }
 
     public Optional<Payment> getOne(Long clientId, String partnerId, String type) {
-        return repository.findByClientIdAndPartnerIdAndType(clientId, partnerId, type);
+        return repository.findByClientIdAndPartnerIdAndLoyalType(clientId, partnerId, type);
     }
 
     public Payment create(@org.springframework.lang.NonNull Payment partner) {

@@ -16,7 +16,6 @@
     </properties>
 
     <dependencies>
-
         <!-- Spring Boot Starter JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
