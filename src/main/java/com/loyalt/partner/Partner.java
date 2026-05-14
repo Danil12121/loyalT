@@ -3,7 +3,7 @@ package com.loyalt.partner;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="partners")
+@Table(name="loyalty")
 public class Partner {
 
     @Id

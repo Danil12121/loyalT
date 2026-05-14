@@ -17,7 +17,7 @@ public interface PartnerRepository extends JpaRepository<Partner, Long> {
 
         @Modifying
         @Transactional
-        void deletebypartnerIdAndType(Long partnerId, String type);
+        void deleteByPartnerIdAndType(Long partnerId, String type);
 
         @Modifying
         @Transactional

@@ -12,10 +12,11 @@
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-boot.version>3.4.4</spring-boot.version>
     </properties>
 
     <dependencies>
+
         <!-- Spring Boot Starter JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>3.1.0</version>
+            <version>3.3.4</version>
         </dependency>
 
         <!-- ClickHouse JDBC -->
@@ -65,5 +66,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+
+
     </dependencies>
 </project>

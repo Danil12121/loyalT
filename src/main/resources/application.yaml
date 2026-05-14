@@ -1,11 +1,16 @@
+server:
+  port: 8085
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/loyalty
-    username: admin
-    password: password
+    url: jdbc:postgresql://localhost:5001/loyalty
+    username: loyalAdmin
+    password: passwordLoyal
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   data:
     redis:
