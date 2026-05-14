@@ -28,12 +28,12 @@ public class PartnerController {
     }
 
     @PostMapping
-    public Partner create(@RequestBody Partner partner) {
+    public Partner create(@org.springframework.lang.NonNull@RequestBody Partner partner) {
         return service.create(partner);
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, 
+    public String update(@PathVariable String id, 
                          @RequestParam String type, 
                          @RequestParam Double value) {
         service.update(id, type, value);
@@ -41,7 +41,7 @@ public class PartnerController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(String id) {
         service.delete(id);
     }
 }

@@ -18,20 +18,20 @@ public class PartnerService {
         return repository.findAll();
     }
 
-    public Optional<Partner> getOne(Long id, String type) {
+    public Optional<Partner> getOne(String id, String type) {
         return repository.findByPartnerIdAndType(id, type);
     }
 
-    public Partner create(Partner partner) {
+    public Partner create(@org.springframework.lang.NonNull Partner partner) {
         return repository.save(partner);
     }
 
     @Transactional
-    public void update(Long id, String type, Double value) {
+    public void update(String id, String type, Double value) {
         repository.updateValue(id, type, value);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         repository.deleteByPartnerId(id);
     }
 }

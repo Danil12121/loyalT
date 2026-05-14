@@ -7,8 +7,7 @@ import jakarta.persistence.*;
 public class Partner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partnerId;
+    private String partnerId;
         
     @Column(name = "type")
     private String type;
@@ -19,17 +18,17 @@ public class Partner {
     public Partner() {
     }
 
-    public Partner(Long partnerId, String type, double value) {
+    public Partner(String partnerId, String type, double value) {
         this.partnerId = partnerId;
         this.type = type;
         this.value = value;
     }
 
-    public Long getPartnerId() {
-            return partnerId;
+    public String getPartnerId() {
+        return partnerId;
     }
 
-    public void setPartnerId(Long partnerId) {
+    public void setPartnerId(String partnerId) {
         this.partnerId = partnerId;
     }
 
