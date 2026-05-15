@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,39 +80,5 @@ public class PartnerController {
             log.error("Failed to delete partner {}: {}", id, e.getMessage(), e);
             throw e;
         }
-    }
-}
-
-// DTO class for update request
-class UpdateRequest {
-    private String type;
-    private Double value;
-
-    // Default constructor
-    public UpdateRequest() {}
-
-    // Getters and setters
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "UpdateRequest{" +
-                "type='" + type + '\'' +
-                ", value=" + value +
-                '}';
     }
 }
