@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long>{
     
-    Optional<Payment> findByClientIdAndPartnerIdAndType(Long clientId, String partnerId, String type);
+    Optional<Payment> findByClientIdAndPartnerIdAndLoyalType(Long clientId, String partnerId, String loyalType);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Analytics a SET " +
+    @Query("UPDATE Payment a SET " +
        "a.value = :value, " +
-       "a.loyalType = :loyaltype, " +
+       "a.loyalType = :loyalType, " +
        "a.partnerId = :partnerId, " +
        "a.value = :value, " +
        "a.currValue = :currValue, " +

@@ -1,7 +1,38 @@
+logging:
+  level:
+    org.apache.coyote.http11: DEBUG
+    org.apache.tomcat.util.net: DEBUG
+    org.springframework.web.socket: DEBUG
+    root: INFO
+    com.loyalt: DEBUG
+    com.loyalt.partner: DEBUG
+    org.springframework.web: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.springframework.boot.web.embedded.tomcat: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n"
+
 server:
   port: 8085
+  address: 0.0.0.0
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: logs
+      prefix: access_log
+      suffix: .log
+      pattern: '%h %l %u %t "%r" %s %b %D ms'
+      rotate: true
 
 spring:
+  web:
+    log-request-details: true
+    cors:
+      allowed-origins: '*'
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: '*'
+      allow-credentials: true
+      max-age: 3600
   datasource:
     url: jdbc:postgresql://localhost:5001/loyalty
     username: loyalAdmin

@@ -15,8 +15,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clientId;
         
-    @Column(name = "partnerName")
-    private String partnerName;
+    @Column(name = "partnerId")
+    private String partnerId;
 
     @Column(name = "value")
     private Double value;
@@ -35,7 +35,7 @@ public class Payment {
 
     public Payment(String partnerName, Double value, 
                String loyalType, int currValue, int maxValueorPercent) {
-        this.partnerName = partnerName;
+        this.partnerId = partnerName;
         this.value = value;
         this.loyalType = loyalType;
         this.currValue = currValue;
@@ -46,8 +46,8 @@ public class Payment {
         return clientId;
     }
 
-    public String getPartnerName() {
-        return partnerName;
+    public String getPartnerId() {
+        return partnerId;
     }
 
     public Double getValue() {
@@ -70,8 +70,8 @@ public class Payment {
         this.clientId = clientId;
     }
 
-    public void setPartnerName(String partnerName) {
-        this.partnerName = partnerName;
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
     }
 
     public void setValue(Double value) {
