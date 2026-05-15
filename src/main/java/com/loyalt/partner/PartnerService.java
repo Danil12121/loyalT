@@ -19,7 +19,7 @@ public class PartnerService {
     }
 
     public Optional<Partner> getOne(String id, String type) {
-        return repository.findByPartnerIdAndType(id, type);
+        return repository.findByIdAndType(id, type);
     }
 
     public Partner create(@org.springframework.lang.NonNull Partner partner) {
@@ -32,6 +32,6 @@ public class PartnerService {
     }
 
     public void delete(String id) {
-        repository.deleteByPartnerId(id);
+        repository.deleteById(id);
     }
 }

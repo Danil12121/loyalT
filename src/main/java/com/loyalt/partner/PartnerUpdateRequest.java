@@ -1,26 +1,14 @@
 package com.loyalt.partner;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="partner_loyalty_rules")
-public class Partner {
-
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
+public class PartnerUpdateRequest {
     private String id;
-        
-    @Column(name = "type")
     private String type;
-
-    @Column(name = "value")
     private Double value;
 
-    public Partner() {
-    }
+    public PartnerUpdateRequest() {}
 
-    public Partner(String partnerId, String type, double value) {
-        this.id = partnerId;
+    public PartnerUpdateRequest(String id, String type, Double value) {
+        this.id = id;
         this.type = type;
         this.value = value;
     }
@@ -47,5 +35,14 @@ public class Partner {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "PartnerUpdateRequest{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
