@@ -1,10 +1,10 @@
 package com.loyalt.bankkernel;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BankService {
 
@@ -19,7 +19,7 @@ public class BankService {
     }
 
     public Optional<Payment> getOne(Long clientId, String partnerId, String type) {
-        return repository.findByClientIdAndPartnerIdAndLoyalType(clientId, partnerId, type);
+        return repository.findByClientIdAndPartnerIdAndLoyaltyType(clientId, partnerId, type);
     }
 
     public Payment create(@org.springframework.lang.NonNull Payment partner) {
@@ -28,14 +28,11 @@ public class BankService {
 
     @Transactional
 
-    public void update(Long clientId, String partnerId, String type, Double value, int currValue, int maxValueorPercent) {
-        repository.update(clientId, partnerId, type, value, currValue, maxValueorPercent);
+    public void update(String partnerId, String type, Double balance, int currValue, int maxValueOrPercent) {
+        repository.update(partnerId, type, balance, currValue, maxValueOrPercent);
     }
 
-    public void deletePayment(Long clientId) {
-        repository.deleteByClientId(clientId);
-    }
-    public void deletePartner(String partnerId) {
-        repository.deleteByPartnerId(partnerId);
+    public void delete(String partnerId, Long clientId) {
+        repository.delete(partnerId, clientId);
     }
 }

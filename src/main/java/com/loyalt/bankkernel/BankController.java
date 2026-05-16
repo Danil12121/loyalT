@@ -1,17 +1,26 @@
 package com.loyalt.bankkernel;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/api/bank")
 public class BankController {
     // принимает оплату клиента, считает сколько баллов лояльности дать
+
+    private static final Logger log = LoggerFactory.getLogger(BankController.class);
     private final BankService service;
 
     public BankController(BankService service) {
@@ -20,27 +29,141 @@ public class BankController {
 
     @GetMapping
     public List<Payment> getAll() {
-        return service.getAll();
+        log.info("REST request to get all partners analytics");
+        List<Payment> payments = service.getAll();
+        log.info("Retrieved {} partners", payments != null ? payments.size() : 0);
+        return payments;
     }
 
     @PostMapping
-    public Payment create(@org.springframework.lang.NonNull@RequestBody Payment payment) {
-        return service.create(payment);
+    public Payment create(@org.springframework.lang.NonNull @RequestBody Payment payment) {
+        log.info("REST request to create partner analytics: {}", payment);
+
+        Payment created = service.create(payment);
+        log.info("Partner analytics created successfully");
+        return created;
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long clientId, 
-                    @RequestParam String partnerId, 
-                    @RequestParam String type,
-                    @RequestParam Double value,
-                    @RequestParam int currValue, 
-                    @RequestParam int maxValueorPercent) {
-        service.update(clientId, partnerId, type, value, currValue, maxValueorPercent);
-        return "Updated successfully";
+    public String update(@PathVariable String partnerId,
+                         @RequestBody UpdatePaymentRequest updatePaymentRequest) {
+
+        log.info("REST request to update partner payments - id: {}, body: {}", partnerId, updatePaymentRequest);
+
+        if (partnerId == null || partnerId.trim().isEmpty()) {
+            log.error("Update failed: partner id is null or empty");
+            return "Update failed: invalid id";
+        }
+
+        try {
+            service.update(
+                    partnerId,
+                    updatePaymentRequest.getLoyalType(),
+                    updatePaymentRequest.getValue(),
+                    updatePaymentRequest.getCurrValue(),
+                    updatePaymentRequest.getMaxValueorPercent());
+
+            log.info("Partner {} analytics updated successfully (clients: {}, new clients: {}, total tranactions: {}, date: {})",
+                    updatePaymentRequest.getClientId(),
+                    partnerId,
+                    updatePaymentRequest.getLoyalType(),
+                    updatePaymentRequest.getValue(),
+                    updatePaymentRequest.getCurrValue(),
+                    updatePaymentRequest.getMaxValueorPercent());
+            return "Updated successfully";
+        } catch (Exception e) {
+            log.error("Failed to update partner {}: {}", partnerId, e.getMessage(), e);
+            return "Update failed: " + e.getMessage();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(Long clientId) {
-        service.deletePayment(clientId);
+    public void deletePayment(@PathVariable String partnerId, Long clientId) {
+        log.info("REST request to delete payment with id: {}", clientId);
+
+        if (partnerId == null || partnerId.trim().isEmpty()) {
+            log.warn("Delete attempt with null or empty partnerId");
+            return;
+        }
+
+        try {
+            service.delete(partnerId, clientId);
+            log.info("Payment by {} deleted successfully", clientId);
+        } catch (Exception e) {
+            log.error("Failed to delete payment {}: {}", clientId, e.getMessage(), e);
+            throw e;
+        }
+    }
+}
+
+class UpdatePaymentRequest {
+
+    private Long clientId;
+    private String partnerId;
+    private Double value;
+    private String loyalType;
+    private int currValue;
+    private int maxValueorPercent;
+
+    public UpdatePaymentRequest() {
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public String getLoyalType() {
+        return loyalType;
+    }
+
+    public int getCurrValue() {
+        return currValue;
+    }
+
+    public int getMaxValueorPercent() {
+        return maxValueorPercent;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public void setLoyalType(String loyalType) {
+        this.loyalType = loyalType;
+    }
+
+    public void setCurrValue(int currValue) {
+        this.currValue = currValue;
+    }
+
+    public void setMaxValueorPercent(int maxValueorPercent) {
+        this.maxValueorPercent = maxValueorPercent;
+    }
+
+    @Override
+    public String toString() {
+        return "UpdatePaymentRequest{" +
+                "partnerId='" + partnerId + '\'' +
+                ", value=" + value + '\'' +
+                ", loyalType=" + loyalType + '\'' +
+                ", currValue=" + currValue + '\'' +
+                ", maxValueorPercent=" + maxValueorPercent +
+                '}';
     }
 }
