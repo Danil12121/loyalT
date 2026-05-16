@@ -36,7 +36,7 @@ public class BankController {
     }
 
     @PostMapping
-    public Payment create(@org.springframework.lang.NonNull@RequestBody Payment payment) {
+    public Payment create(@org.springframework.lang.NonNull @RequestBody Payment payment) {
         log.info("REST request to create partner analytics: {}", payment);
 
         Payment created = service.create(payment);
@@ -45,9 +45,9 @@ public class BankController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable String partnerId, 
-                @RequestBody UpdatePaymentRequest updatePaymentRequest) {
-        
+    public String update(@PathVariable String partnerId,
+                         @RequestBody UpdatePaymentRequest updatePaymentRequest) {
+
         log.info("REST request to update partner payments - id: {}, body: {}", partnerId, updatePaymentRequest);
 
         if (partnerId == null || partnerId.trim().isEmpty()) {
@@ -56,20 +56,20 @@ public class BankController {
         }
 
         try {
-            service.update(updatePaymentRequest.getClientId(), 
-                            partnerId, 
-                            updatePaymentRequest.getLoyalType(), 
-                            updatePaymentRequest.getValue(), 
-                            updatePaymentRequest.getCurrValue(),
-                            updatePaymentRequest.getMaxValueorPercent());
+            service.update(
+                    partnerId,
+                    updatePaymentRequest.getLoyalType(),
+                    updatePaymentRequest.getValue(),
+                    updatePaymentRequest.getCurrValue(),
+                    updatePaymentRequest.getMaxValueorPercent());
 
             log.info("Partner {} analytics updated successfully (clients: {}, new clients: {}, total tranactions: {}, date: {})",
-                            updatePaymentRequest.getClientId(), 
-                            partnerId, 
-                            updatePaymentRequest.getLoyalType(), 
-                            updatePaymentRequest.getValue(), 
-                            updatePaymentRequest.getCurrValue(),
-                            updatePaymentRequest.getMaxValueorPercent());
+                    updatePaymentRequest.getClientId(),
+                    partnerId,
+                    updatePaymentRequest.getLoyalType(),
+                    updatePaymentRequest.getValue(),
+                    updatePaymentRequest.getCurrValue(),
+                    updatePaymentRequest.getMaxValueorPercent());
             return "Updated successfully";
         } catch (Exception e) {
             log.error("Failed to update partner {}: {}", partnerId, e.getMessage(), e);
@@ -87,7 +87,7 @@ public class BankController {
         }
 
         try {
-            service.deletePayment(partnerId, clientId);
+            service.delete(partnerId, clientId);
             log.info("Payment by {} deleted successfully", clientId);
         } catch (Exception e) {
             log.error("Failed to delete payment {}: {}", clientId, e.getMessage(), e);
@@ -97,7 +97,7 @@ public class BankController {
 }
 
 class UpdatePaymentRequest {
-    
+
     private Long clientId;
     private String partnerId;
     private Double value;
@@ -105,7 +105,8 @@ class UpdatePaymentRequest {
     private int currValue;
     private int maxValueorPercent;
 
-    public UpdatePaymentRequest() {}
+    public UpdatePaymentRequest() {
+    }
 
     public Long getClientId() {
         return clientId;

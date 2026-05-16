@@ -10,26 +10,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long>{
     
-    Optional<Payment> findByClientIdAndPartnerIdAndLoyalType(Long clientId, String partnerId, String loyalType);
+    Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(Long clientId, String partnerId, String loyaltyType);
 
     @Modifying
     @Transactional
     @Query("UPDATE Payment a SET " +
-       "a.value = :value, " +
-       "a.loyalType = :loyalType, " +
+       "a.balance = :balance, " +
+       "a.loyaltyType = :loyaltyType, " +
        "a.partnerId = :partnerId, " +
-       "a.value = :value, " +
        "a.currValue = :currValue, " +
-       "a.maxValueorPercent = :maxValueorPercent " +
+       "a.maxValueOrPercent = :maxValueOrPercent " +
        "WHERE a.clientId = :clientId")
-    void update(@Param("id") Long clientId,
+    void update(
             @Param("partnerId") String partnerId,
-            @Param("loyalType") String loyalType,
-            @Param("value") Double value,
+            @Param("loyaltyType") String loyalType,
+            @Param("balance") Double value,
             @Param("currValue") int currValue,
-            @Param("maxValueorPercent") int maxValueorPercent);
+            @Param("maxValueOrPercent") int maxValueorPercent);
 
     @Modifying
     @Transactional
+    @Query("DELETE FROM Payment p WHERE p.partnerId = ?1 AND p.clientId = ?2")
     void delete(String partnerId, Long clientId);
 }
