@@ -28,6 +28,15 @@ CREATE TABLE partner_statistics (
     FOREIGN KEY (partner_id) REFERENCES partner_loyalty_rules(id) ON DELETE CASCADE
 );
 
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    partner_id VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE INDEX idx_users_login ON users(login);
+
 CREATE INDEX idx_client_loyalty_client ON client_loyalty_data(client_id);
 CREATE INDEX idx_client_loyalty_partner ON client_loyalty_data(partner_id);
 CREATE INDEX idx_partner_stats_date ON partner_statistics(date);

@@ -92,16 +92,17 @@ public class AnalyticsController {
 }
 
 class UpdateAnalyticRequest {
-    
+
     private String partnerId;
     private int totalClients;
     private Long totalTransactions;
     private int newClients;
     private LocalDateTime date;
 
-    public UpdateAnalyticRequest() {}
+    public UpdateAnalyticRequest() {
+    }
 
-        public String getPartnerId() {
+    public String getPartnerId() {
         return partnerId;
     }
 
