@@ -1,10 +1,10 @@
 package com.loyalt.bankkernel;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BankService {
 
@@ -32,10 +32,7 @@ public class BankService {
         repository.update(clientId, partnerId, type, value, currValue, maxValueorPercent);
     }
 
-    public void deletePayment(Long clientId) {
-        repository.deleteByClientId(clientId);
-    }
-    public void deletePartner(String partnerId) {
-        repository.deleteByPartnerId(partnerId);
+    public void deletePayment(String partnerId, Long clientId) {
+        repository.delete(partnerId, clientId);
     }
 }

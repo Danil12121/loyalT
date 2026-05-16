@@ -31,9 +31,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>{
 
     @Modifying
     @Transactional
-    void deleteByClientId(Long clientId);
-
-    @Modifying
-    @Transactional
-    void deleteByPartnerId(String partnerId);   
+    void delete(String partnerId, Long clientId);
 }
