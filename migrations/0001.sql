@@ -18,6 +18,28 @@ CREATE TABLE client_loyalty_data (
     FOREIGN KEY (partner_id) REFERENCES partner_loyalty_rules(id) ON DELETE CASCADE
 );
 
+CREATE TABLE partner_statistics (
+    partner_id VARCHAR(255) PRIMARY KEY,
+    total_clients INT DEFAULT 0,
+    total_transactions INT DEFAULT 0,
+    new_clients INT DEFAULT 0,
+    date DATE NOT NULL,
+    FOREIGN KEY (partner_id) REFERENCES partner_loyalty_rules(id) ON DELETE CASCADE
+);
+
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    partner_id VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE INDEX idx_users_login ON users(login);
+
+CREATE INDEX idx_client_loyalty_client ON client_loyalty_data(client_id);
+CREATE INDEX idx_client_loyalty_partner ON client_loyalty_data(partner_id);
+CREATE INDEX idx_partner_stats_date ON partner_statistics(date);
+CREATE INDEX idx_partner_stats_total_clients ON partner_statistics(total_clients DESC);
 
 INSERT INTO partner_loyalty_rules (id, type, value) VALUES
 ('Кофейня 1', 'CASHBACK', 10.0),

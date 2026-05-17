@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/bank")
 public class BankController {
-    // принимает оплату клиента, считает сколько баллов лояльности дать
-
     private static final Logger log = LoggerFactory.getLogger(BankController.class);
     private final BankService service;
 
@@ -39,14 +37,13 @@ public class BankController {
     public Payment create(@org.springframework.lang.NonNull @RequestBody Payment payment) {
         log.info("REST request to create partner analytics: {}", payment);
 
-        Payment created = service.create(payment);
+        Payment created = service.save(payment);
         log.info("Partner analytics created successfully");
         return created;
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable String partnerId,
-                         @RequestBody UpdatePaymentRequest updatePaymentRequest) {
+    public String update(@PathVariable String partnerId, @RequestBody UpdatePaymentRequest updatePaymentRequest) {
 
         log.info("REST request to update partner payments - id: {}, body: {}", partnerId, updatePaymentRequest);
 
@@ -56,20 +53,10 @@ public class BankController {
         }
 
         try {
-            service.update(
-                    partnerId,
-                    updatePaymentRequest.getLoyalType(),
-                    updatePaymentRequest.getValue(),
-                    updatePaymentRequest.getCurrValue(),
-                    updatePaymentRequest.getMaxValueorPercent());
+            Payment paymentToUpdate = new Payment(partnerId, updatePaymentRequest.getValue(), updatePaymentRequest.getLoyalType(), updatePaymentRequest.getCurrValue(), updatePaymentRequest.getMaxValueorPercent());
+            service.save(paymentToUpdate);
 
-            log.info("Partner {} analytics updated successfully (clients: {}, new clients: {}, total tranactions: {}, date: {})",
-                    updatePaymentRequest.getClientId(),
-                    partnerId,
-                    updatePaymentRequest.getLoyalType(),
-                    updatePaymentRequest.getValue(),
-                    updatePaymentRequest.getCurrValue(),
-                    updatePaymentRequest.getMaxValueorPercent());
+            log.info("Partner {} analytics updated successfully (clients: {}, new clients: {}, total tranactions: {}, date: {})", updatePaymentRequest.getClientId(), partnerId, updatePaymentRequest.getLoyalType(), updatePaymentRequest.getValue(), updatePaymentRequest.getCurrValue(), updatePaymentRequest.getMaxValueorPercent());
             return "Updated successfully";
         } catch (Exception e) {
             log.error("Failed to update partner {}: {}", partnerId, e.getMessage(), e);
@@ -78,7 +65,7 @@ public class BankController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePayment(@PathVariable String partnerId, Long clientId) {
+    public void deletePayment(@PathVariable String partnerId, int clientId) {
         log.info("REST request to delete payment with id: {}", clientId);
 
         if (partnerId == null || partnerId.trim().isEmpty()) {
@@ -103,7 +90,7 @@ class UpdatePaymentRequest {
     private Double value;
     private String loyalType;
     private int currValue;
-    private int maxValueorPercent;
+    private int maxValueOrPercent;
 
     public UpdatePaymentRequest() {
     }
@@ -129,7 +116,7 @@ class UpdatePaymentRequest {
     }
 
     public int getMaxValueorPercent() {
-        return maxValueorPercent;
+        return maxValueOrPercent;
     }
 
     public void setClientId(Long clientId) {
@@ -152,18 +139,12 @@ class UpdatePaymentRequest {
         this.currValue = currValue;
     }
 
-    public void setMaxValueorPercent(int maxValueorPercent) {
-        this.maxValueorPercent = maxValueorPercent;
+    public void setMaxValueOrPercent(int maxValueorPercent) {
+        this.maxValueOrPercent = maxValueorPercent;
     }
 
     @Override
     public String toString() {
-        return "UpdatePaymentRequest{" +
-                "partnerId='" + partnerId + '\'' +
-                ", value=" + value + '\'' +
-                ", loyalType=" + loyalType + '\'' +
-                ", currValue=" + currValue + '\'' +
-                ", maxValueorPercent=" + maxValueorPercent +
-                '}';
+        return "UpdatePaymentRequest{" + "partnerId='" + partnerId + '\'' + ", value=" + value + '\'' + ", loyalType=" + loyalType + '\'' + ", currValue=" + currValue + '\'' + ", maxValueOrPercent=" + maxValueOrPercent + '}';
     }
 }

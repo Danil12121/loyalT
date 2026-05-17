@@ -81,4 +81,86 @@ public class AnalyticsController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        log.info("REST request to delete partner with id: {}", id);
+
+        if (id == null || id.trim().isEmpty()) {
+            log.warn("Delete attempt with null or empty id");
+            return;
+        }
+
+        try {
+            service.delete(id);
+            log.info("Partner {} deleted successfully", id);
+        } catch (Exception e) {
+            log.error("Failed to delete partner {}: {}", id, e.getMessage(), e);
+            throw e;
+        }
+    }
+}
+
+class UpdateAnalyticRequest {
+
+    private String partnerId;
+    private int totalClients;
+    private Long totalTransactions;
+    private int newClients;
+    private LocalDateTime date;
+
+    public UpdateAnalyticRequest() {
+    }
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public int getTotalClients() {
+        return totalClients;
+    }
+
+    public Long getTotalTransactions() {
+        return totalTransactions;
+    }
+
+    public int getNewClients() {
+        return newClients;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public void setTotalClients(int totalClients) {
+        this.totalClients = totalClients;
+    }
+
+    public void setTotalTransactions(Long totalTransactions) {
+        this.totalTransactions = totalTransactions;
+    }
+
+    public void setNewClients(int newClients) {
+        this.newClients = newClients;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "UpdateAnalyticRequest{" +
+                "partnerId='" + partnerId + '\'' +
+                ", totalClients=" + totalClients + '\'' +
+                ", totalTransactions=" + totalTransactions + '\'' +
+                ", newClients=" + newClients + '\'' +
+                ", date=" + date +
+                '}';
+    }
+}
 }

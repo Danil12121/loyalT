@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long>{
     
-    Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(Long clientId, String partnerId, String loyaltyType);
+    Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(int clientId, String partnerId, String loyaltyType);
 
     @Modifying
     @Transactional
@@ -31,5 +31,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>{
     @Modifying
     @Transactional
     @Query("DELETE FROM Payment p WHERE p.partnerId = ?1 AND p.clientId = ?2")
-    void delete(String partnerId, Long clientId);
+    void delete(String partnerId, int clientId);
 }
