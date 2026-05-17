@@ -38,7 +38,7 @@ public class PartnerController {
     public Partner create(@NonNull @RequestBody Partner partner) {
         log.info("REST request to create partner: {}", partner);
 
-        Partner created = service.create(partner);
+        Partner created = service.save(partner);
         log.info("Partner created successfully");
         return created;
     }
@@ -53,9 +53,12 @@ public class PartnerController {
         }
 
         try {
-            service.update(updateRequest.getId(),
+            Partner partnerToUpdate = new Partner(
+                    updateRequest.getId(),
                     updateRequest.getType(),
-                    updateRequest.getValue());
+                    updateRequest.getValue()
+            );
+            service.save(partnerToUpdate);
             log.info("Partner {} updated successfully (type: {}, value: {})",
                     updateRequest.getId(),
                     updateRequest.getType(),
