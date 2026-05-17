@@ -44,13 +44,13 @@ CREATE INDEX idx_partner_stats_total_clients ON partner_statistics(total_clients
 INSERT INTO partner_loyalty_rules (id, type, value) VALUES
 ('Кофейня 1', 'CASHBACK', 10.0),
 ('Кофейня 2', 'CASHBACK', 15.0),
-('Барбершоп 2', 'STAMP_CARD', 1.0),
+('Барбершоп 2', 'STAMP_CARD', 5.0),
 ('Суши-маркет', 'CASHBACK', 5.0),
 ('Фитнес-клуб', 'STAMP_CARD', 1.0),
 ('Аптека 24', 'CASHBACK', 3.0),
-('Пиццерия', 'STAMP_CARD', 1.0),
+('Пиццерия', 'STAMP_CARD', 6.0),
 ('Химчистка', 'CASHBACK', 7.0),
-('Книжный магазин', 'STAMP_CARD', 1.0),
+('Книжный магазин', 'STAMP_CARD', 3.0),
 ('Зоомагазин', 'CASHBACK', 8.0);
 
 INSERT INTO client_loyalty_data (client_id, partner_id, loyalty_type, curr_value, max_value_or_percent) VALUES
