@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long>{
     
-    Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(Long clientId, String partnerId, String loyaltyType);
+    Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(int clientId, String partnerId, String loyaltyType);
 
     @Modifying
     @Transactional

@@ -18,7 +18,7 @@ public class BankService {
         return repository.findAll();
     }
 
-    public Optional<Payment> getOne(Long clientId, String partnerId, String type) {
+    public Optional<Payment> getOne(int clientId, String partnerId, String type) {
         return repository.findByClientIdAndPartnerIdAndLoyaltyType(clientId, partnerId, type);
     }
 
