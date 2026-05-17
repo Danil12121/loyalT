@@ -1,33 +1,29 @@
 package com.loyalt.analytics;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import java.sql.Timestamp;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
+@Repository
+public class AnalyticsRepository {
 
-public interface AnalyticsRepository extends JpaRepository<Analytics, String>{
+    private final JdbcTemplate clickHouseJdbcTemplate;
+
+    // Используем @Qualifier, чтобы Spring понимал, что нужен бин для ClickHouse, а не для Postgres
+    public AnalyticsRepository(@Qualifier("clickhouseJdbcTemplate") JdbcTemplate clickHouseJdbcTemplate) {
+        this.clickHouseJdbcTemplate = clickHouseJdbcTemplate;
+    }
+
+    public void save(Analytics analytics) {
+        String sql = "INSERT INTO transactions (transaction_id, partner_id, client_id, amount, timestamp) VALUES (?, ?, ?, ?, ?)";
         
-    Optional<Analytics> findByPartnerId(String partnerId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Analytics a SET " +
-       "a.totalClients = :totalClients, " +
-       "a.newClients = :newClients, " +
-       "a.totalTransactions = :totalTransactions, " +
-       "a.date = :date " +
-       "WHERE a.partnerId = :id")
-    int updateValue(@Param("id") String partnerId, 
-                @Param("totalClients") int totalClients, 
-                @Param("newClients") int newClients, 
-                @Param("totalTransactions") Long totalTransactions, 
-                @Param("date") LocalDateTime date);
-                
-    @Modifying
-    @Transactional
-    void deleteByPartnerId(String partnerId);
+        clickHouseJdbcTemplate.update(sql,
+                analytics.getTransactionId(),
+                analytics.getPartnerId(),
+                analytics.getClientId(),
+                analytics.getAmount(),
+                analytics.getDate() != null ? Timestamp.valueOf(analytics.getDate()) : null
+        );
+    }
 }

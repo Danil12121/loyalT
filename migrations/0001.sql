@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS partner_statistics CASCADE;
 DROP TABLE IF EXISTS client_loyalty_data CASCADE;
 DROP TABLE IF EXISTS partner_loyalty_rules CASCADE;
 
@@ -19,19 +18,6 @@ CREATE TABLE client_loyalty_data (
     FOREIGN KEY (partner_id) REFERENCES partner_loyalty_rules(id) ON DELETE CASCADE
 );
 
-CREATE TABLE partner_statistics (
-    partner_id VARCHAR(255) PRIMARY KEY,
-    total_clients INT DEFAULT 0,
-    total_transactions INT DEFAULT 0,
-    new_clients INT DEFAULT 0,
-    date DATE NOT NULL,
-    FOREIGN KEY (partner_id) REFERENCES partner_loyalty_rules(id) ON DELETE CASCADE
-);
-
-CREATE INDEX idx_client_loyalty_client ON client_loyalty_data(client_id);
-CREATE INDEX idx_client_loyalty_partner ON client_loyalty_data(partner_id);
-CREATE INDEX idx_partner_stats_date ON partner_statistics(date);
-CREATE INDEX idx_partner_stats_total_clients ON partner_statistics(total_clients DESC);
 
 INSERT INTO partner_loyalty_rules (id, type, value) VALUES
 ('Кофейня 1', 'CASHBACK', 10.0),
@@ -44,3 +30,8 @@ INSERT INTO partner_loyalty_rules (id, type, value) VALUES
 ('Химчистка', 'CASHBACK', 7.0),
 ('Книжный магазин', 'STAMP_CARD', 1.0),
 ('Зоомагазин', 'CASHBACK', 8.0);
+
+INSERT INTO client_loyalty_data (client_id, partner_id, loyalty_type, curr_value, max_value_or_percent) VALUES
+(1, 'Кофейня 1', 'CASHBACK', 0, 10),
+(1, 'Фитнес-клуб', 'STAMP_CARD', 0, 10),
+(2, 'Кофейня 1', 'CASHBACK', 0, 10);

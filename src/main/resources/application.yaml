@@ -62,6 +62,7 @@ spring:
         spring.json.trusted.packages: "*"
 clickhouse:
   datasource:
-    url: jdbc:clickhouse://localhost:8123/loyalty
+    # Обычный HTTP URL, который идеально подходит для Яндекс-драйвера
+    url: jdbc:clickhouse://localhost:8123/transactions
     username: admin
     password: password
