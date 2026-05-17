@@ -22,7 +22,6 @@ public class ClickHouseConfig {
     public JdbcTemplate clickhouseJdbcTemplate() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         
-        // Используем проверенный класс Яндекс-драйвера
         dataSource.setDriverClassName("ru.yandex.clickhouse.ClickHouseDriver");
         
         dataSource.setUrl(url);

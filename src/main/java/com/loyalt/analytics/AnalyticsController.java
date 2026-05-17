@@ -22,9 +22,7 @@ public class AnalyticsController {
         this.service = service;
     }
 
-    /**
-     * ПРИЕМ СЫРЫХ ДАННЫХ: Регистрация новой транзакции/события в ClickHouse
-     */
+
     @PostMapping
     public ResponseEntity<Analytics> create(@org.springframework.lang.NonNull @RequestBody Analytics analyticsRecord) {
         log.info("REST request to record new ClickHouse transaction: {}", analyticsRecord);
@@ -32,9 +30,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(created);
     }
 
-    /**
-     * ПОЛУЧЕНИЕ СТАТИСТИКИ: Агрегированная аналитика из ClickHouse (работает молниеносно)
-     */
+
     @GetMapping("/{partnerId}/stats")
     public ResponseEntity<AnalyticsDTO> getPartnerStats(
             @PathVariable String partnerId,
@@ -46,18 +42,14 @@ public class AnalyticsController {
         return ResponseEntity.ok(stats);
     }
 
-    /**
-     * СЛУЖЕБНЫЙ: Получить список транзакций (Внимание: добавлен LIMIT для безопасности ClickHouse)
-     */
+
     @GetMapping("/transactions")
     public List<Analytics> getAllTransactions(@RequestParam(value = "limit", defaultValue = "1000") int limit) {
         log.info("REST request to get raw transactions with limit {}", limit);
         return service.getAllTransactions(limit);
     }
 
-    /**
-     * СЛУЖЕБНЫЙ: Получить конкретную транзакцию по ее ID
-     */
+
     @GetMapping("/transactions/{id}")
     public ResponseEntity<Analytics> getTransactionById(@PathVariable Long id) {
         log.info("REST request to get raw transaction by id: {}", id);
@@ -66,9 +58,6 @@ public class AnalyticsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * УДАЛЕНИЕ: Удаление в ClickHouse через Lightweight Delete / Mutation
-     */
     @DeleteMapping("/transactions/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
         log.info("REST request to delete transaction with id from ClickHouse: {}", id);
@@ -83,16 +72,16 @@ public class AnalyticsController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Long id) {
         log.info("REST request to delete partner with id: {}", id);
 
-        if (id == null || id.trim().isEmpty()) {
+        if (id == null) {
             log.warn("Delete attempt with null or empty id");
             return;
         }
 
         try {
-            service.delete(id);
+            service.deleteTransaction(id);
             log.info("Partner {} deleted successfully", id);
         } catch (Exception e) {
             log.error("Failed to delete partner {}: {}", id, e.getMessage(), e);
@@ -163,4 +152,4 @@ class UpdateAnalyticRequest {
                 '}';
     }
 }
-}
+

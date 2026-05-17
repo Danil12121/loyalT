@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS transactions;
 
--- Создание таблицы
 CREATE TABLE IF NOT EXISTS transactions (
     transaction_id BIGINT PRIMARY KEY,
     partner_id VARCHAR(255) NOT NULL,
@@ -13,7 +12,6 @@ ENGINE = MergeTree()
 PARTITION BY toYYYYMM(date)
 ORDER BY (transaction_id, timestamp);
 
--- Индексы
 ALTER TABLE transactions ADD INDEX idx_date (date) TYPE minmax GRANULARITY 1;
 
 ALTER TABLE transactions ADD INDEX idx_amount (amount) TYPE minmax GRANULARITY 1;

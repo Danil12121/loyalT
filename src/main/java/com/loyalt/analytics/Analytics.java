@@ -6,14 +6,14 @@ public class Analytics {
 
     private Long transactionId;
     private String partnerId;
-    private Long clientId;
+    private int clientId;
     private Long amount;
     private LocalDateTime date;
 
     public Analytics() {
     }
 
-    public Analytics(Long transactionId, String partnerId, Long clientId, Long amount, LocalDateTime date) {
+    public Analytics(Long transactionId, String partnerId, int clientId, Long amount, LocalDateTime date) {
         this.transactionId = transactionId;
         this.partnerId = partnerId;
         this.clientId = clientId;
@@ -21,7 +21,7 @@ public class Analytics {
         this.date = date;
     }
 
-    public Analytics(String partnerId, Long clientId, Long amount, LocalDateTime date) {
+    public Analytics(String partnerId, int clientId, Long amount, LocalDateTime date) {
         this.partnerId = partnerId;
         this.clientId = clientId;
         this.amount = amount;
@@ -34,8 +34,8 @@ public class Analytics {
     public String getPartnerId() { return partnerId; }
     public void setPartnerId(String partnerId) { this.partnerId = partnerId; }
 
-    public Long getClientId() { return clientId; }
-    public void setClientId(Long clientId) { this.clientId = clientId; }
+    public int getClientId() { return clientId; }
+    public void setClientId(int clientId) { this.clientId = clientId; }
 
     public Long getAmount() { return amount; }
     public void setAmount(Long amount) { this.amount = amount; }

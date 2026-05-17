@@ -3,9 +3,9 @@ package com.loyalt.analytics;
 import java.time.LocalDateTime;
 
 public record AnalyticsEvent(
-        String transactionId,
+        Long transactionId,
         String partnerId,
         int clientId,
-        double amount,
+        Long amount,
         LocalDateTime timestamp
 ) {}

@@ -10,14 +10,13 @@ public class AnalyticsRepository {
 
     private final JdbcTemplate clickHouseJdbcTemplate;
 
-    // Используем @Qualifier, чтобы Spring понимал, что нужен бин для ClickHouse, а не для Postgres
     public AnalyticsRepository(@Qualifier("clickhouseJdbcTemplate") JdbcTemplate clickHouseJdbcTemplate) {
         this.clickHouseJdbcTemplate = clickHouseJdbcTemplate;
     }
 
     public void save(Analytics analytics) {
-        String sql = "INSERT INTO transactions (transaction_id, partner_id, client_id, amount, timestamp) VALUES (?, ?, ?, ?, ?)";
-        
+        String sql = "INSERT INTO analytics (transaction_id, partner_id, client_id, amount, date) VALUES (?, ?, ?, ?, ?)";
+
         clickHouseJdbcTemplate.update(sql,
                 analytics.getTransactionId(),
                 analytics.getPartnerId(),

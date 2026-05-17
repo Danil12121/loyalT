@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface PaymentRepository extends JpaRepository<Payment, Long>{
+public interface PaymentRepository extends JpaRepository<Payment, PaymentId>{
     
     Optional<Payment> findByClientIdAndPartnerIdAndLoyaltyType(int clientId, String partnerId, String loyaltyType);
 

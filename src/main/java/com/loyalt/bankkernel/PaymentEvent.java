@@ -1,8 +1,8 @@
 package com.loyalt.bankkernel;
 
 public record PaymentEvent(
-        String transactionId,
+        Long transactionId,
         String partnerId,
         int clientId,
-        double amount
+        Long amount
 ) {}
