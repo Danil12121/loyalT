@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS partner_statistics CASCADE;
 DROP TABLE IF EXISTS client_loyalty_data CASCADE;
 DROP TABLE IF EXISTS partner_loyalty_rules CASCADE;
 
@@ -53,3 +52,8 @@ INSERT INTO partner_loyalty_rules (id, type, value) VALUES
 ('Химчистка', 'CASHBACK', 7.0),
 ('Книжный магазин', 'STAMP_CARD', 1.0),
 ('Зоомагазин', 'CASHBACK', 8.0);
+
+INSERT INTO client_loyalty_data (client_id, partner_id, loyalty_type, curr_value, max_value_or_percent) VALUES
+(1, 'Кофейня 1', 'CASHBACK', 0, 10),
+(1, 'Фитнес-клуб', 'STAMP_CARD', 0, 10),
+(2, 'Кофейня 1', 'CASHBACK', 0, 10);

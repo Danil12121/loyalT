@@ -53,9 +53,9 @@
 
         <!-- ClickHouse JDBC -->
         <dependency>
-            <groupId>com.clickhouse</groupId>
+            <groupId>ru.yandex.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.6.0</version>
+            <version>0.3.2</version>
         </dependency>
 
         <!-- Spring Boot Starter AOP -->
@@ -71,11 +71,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
-
-
     </dependencies>
+
     <build>
         <plugins>
+            <!-- Обновлен до 3.13.0 для стабильной работы с Java 24 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -85,6 +85,20 @@
                     <target>24</target>
                     <parameters>true</parameters>
                 </configuration>
+            </plugin>
+
+            <!-- Добавлен плагин Spring Boot с указанием вашей версии -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
