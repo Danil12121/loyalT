@@ -2,78 +2,44 @@ package com.loyalt.analytics;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name="loyalty")
 public class Analytics {
 
-    @Id
+    private Long transactionId;
     private String partnerId;
-        
-    @Column(name = "totalClients")
-    private int totalClients;
-
-    @Column(name = "totalTransactions")
-    private Long totalTransactions;
-
-    @Column(name = "newClients")
-    private int newClients;
-
-    @Column(name = "date")
+    private Long clientId;
+    private Long amount;
     private LocalDateTime date;
 
     public Analytics() {
     }
 
-    public Analytics(String partnerId, int totalClients, Long totalTransactions, int newClients, LocalDateTime date) {
+    public Analytics(Long transactionId, String partnerId, Long clientId, Long amount, LocalDateTime date) {
+        this.transactionId = transactionId;
         this.partnerId = partnerId;
-        this.totalClients = totalClients;
-        this.totalTransactions = totalTransactions;
-        this.newClients = newClients;
+        this.clientId = clientId;
+        this.amount = amount;
         this.date = date;
     }
 
-    public String getPartnerId() {
-        return partnerId;
-    }
-
-    public int getTotalClients() {
-        return totalClients;
-    }
-
-    public Long getTotalTransactions() {
-        return totalTransactions;
-    }
-
-    public int getNewClients() {
-        return newClients;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setPartnerId(String partnerId) {
+    public Analytics(String partnerId, Long clientId, Long amount, LocalDateTime date) {
         this.partnerId = partnerId;
-    }
-
-    public void setTotalClients(int totalClients) {
-        this.totalClients = totalClients;
-    }
-
-    public void setTotalTransactions(Long totalTransactions) {
-        this.totalTransactions = totalTransactions;
-    }
-
-    public void setNewClients(int newClients) {
-        this.newClients = newClients;
-    }
-
-    public void setDate(LocalDateTime date) {
+        this.clientId = clientId;
+        this.amount = amount;
         this.date = date;
     }
+
+    public Long getTransactionId() { return transactionId; }
+    public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
+
+    public String getPartnerId() { return partnerId; }
+    public void setPartnerId(String partnerId) { this.partnerId = partnerId; }
+
+    public Long getClientId() { return clientId; }
+    public void setClientId(Long clientId) { this.clientId = clientId; }
+
+    public Long getAmount() { return amount; }
+    public void setAmount(Long amount) { this.amount = amount; }
+
+    public LocalDateTime getDate() { return date; }
+    public void setDate(LocalDateTime date) { this.date = date; }
 }
